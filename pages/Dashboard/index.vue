@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-
-    <div class="overflow-x-auto mt-8 p-6 relative">
+  <div class="p-6">
+    <div class="content-center">
       <table class="w-full text-sm text-left text-cms_black">
         <thead class="text-xs text-cms_black uppercase bg-cms_4 dark:bg-gray-700 dark:text-gray-400">
         <tr>
