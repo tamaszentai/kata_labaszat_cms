@@ -4,7 +4,7 @@
       <div class="bg-gray-50 rounded-lg border border-cms_black">
         <div class="py-2 px-4 bg-white rounded-t-lg dark:bg-gray-800">
           <label for="comment" class="sr-only">Your comment</label>
-          <textarea id="comment" rows="25" class="px-0 w-full text-sm text-gray-900 bg-cms_1 border-2 border" placeholder="" required=""></textarea>
+          <textarea id="comment" rows="15" class="px-0 w-full text-sm text-gray-900 bg-cms_1 border-2 border" placeholder="" required=""></textarea>
         </div>
         <div class="flex justify-between items-center py-2 px-3">
           <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-cms_4 rounded-lg hover:bg-cms_1">
