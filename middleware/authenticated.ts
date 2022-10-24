@@ -1,7 +1,15 @@
-// @ts-ignore
-export default function ({ store, redirect }) {
-  // If the user is not authenticated
-  if (!store.state.authenticated) {
-    return redirect('/login')
+export default function ({app, route, redirect}){
+  if (route.path !== '/login') {
+    //we are on a protected route
+    if(!app.$fire.auth.currentUser) {
+      //take them to sign in page
+      return redirect('/login')
+    }
+  } else if (route.path === '/login') {
+    if(!app.$fire.auth.currentUser) {
+      //leave them on the sign in page
+    } else {
+      return redirect('/dashboard')
+    }
   }
 }

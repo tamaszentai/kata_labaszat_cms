@@ -31,29 +31,39 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
   ],
+  router: {
+    middleware: ['authenticated']
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     ['@nuxtjs/tailwindcss'],
-    ['@nuxtjs/firebase',
+    [
+      '@nuxtjs/firebase',
       {
         config: {
-          apiKey: "dummy",
-          authDomain: "dummy",
-          projectId: "dummy",
-          storageBucket: "dummy",
-          messagingSenderId: "dummy",
-          appId: "dummy",
-          measurementId: "dummy"
+          apiKey: 'dummy',
+          authDomain: 'dummy',
+          projectId: 'dummy',
+          storageBucket: 'dummy',
+          messagingSenderId: 'dummy',
+          appId: 'dummy',
+          measurementId: 'dummy',
         },
         services: {
           auth: {
-            onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-            onAuthStateChangedAction: 'onAuthStateChangedAction'
+            persistence: 'local', // default
+            initialize: {
+              // onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+              onAuthStateChangedAction: 'onAuthStateChangedAction',
+              subscribeManually: false,
+            },
+            ssr: false,
           },
-          firestore: true
-        }
-      }]
+          firestore: true,
+        },
+      },
+    ],
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

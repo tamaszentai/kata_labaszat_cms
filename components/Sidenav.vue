@@ -163,18 +163,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   // middleware: 'authenticated',
+  layout: '',
   components: {},
 })
 export default class Sidenav extends Vue {
   logout() {
-    setTimeout(() => {
-      this.$router.push('/login')
-    }, 1000)
+    this.$fire.auth.signOut()
   }
 }
 </script>
