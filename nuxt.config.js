@@ -32,7 +32,7 @@ export default {
     '@nuxt/typescript-build',
   ],
   router: {
-    middleware: ['authenticated']
+    middleware: ['authenticated'],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -42,13 +42,13 @@ export default {
       '@nuxtjs/firebase',
       {
         config: {
-          apiKey: 'dummy',
-          authDomain: 'dummy',
-          projectId: 'dummy',
-          storageBucket: 'dummy',
-          messagingSenderId: 'dummy',
-          appId: 'dummy',
-          measurementId: 'dummy',
+          apiKey: process.env.API_KEY,
+          authDomain: process.env.AUTH_DOMAIN,
+          projectId: process.env.PROJECT_ID,
+          storageBucket: process.env.STORAGE_BUCKET,
+          messagingSenderId: process.env.MESSAGING_SENDER_ID,
+          appId: process.env.APP_ID,
+          measurementId: process.env.MEASUREMENT_ID,
         },
         services: {
           auth: {

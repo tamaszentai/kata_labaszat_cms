@@ -167,7 +167,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
-  // middleware: 'authenticated',
   layout: '',
   components: {},
 })

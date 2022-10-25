@@ -1,4 +1,6 @@
-export default function ({app, route, redirect}){
+import { Middleware } from '@nuxt/types'
+
+const authenticatedMiddleware: Middleware = ({app, route, redirect}) => {
   if (route.path !== '/login') {
     //we are on a protected route
     if(!app.$fire.auth.currentUser) {
@@ -13,3 +15,5 @@ export default function ({app, route, redirect}){
     }
   }
 }
+
+export default authenticatedMiddleware;
