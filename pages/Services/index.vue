@@ -65,7 +65,7 @@
           <td
             class="py-4 px-6 font-medium text-cms_black whitespace-nowrap"
           >
-            <textarea class="w-96 border-2 bg-cms_1" v-model="title" />
+            <textarea class="w-96 border-2 bg-cms_1" v-model="title"/>
           </td>
           <td class="py-4 px-6">
             <textarea class="w-96 border-2 bg-cms_1" v-model="description" />
@@ -74,6 +74,12 @@
         </tr>
         </tbody>
       </table>
+      <button
+        class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
+        @click="saveData"
+      >
+        Mentés
+      </button>
     </div>
   </div>
 </template>
@@ -92,25 +98,24 @@ export default class Services extends Vue {
   title = ''
   description = ''
 
+  dbRef = this.$fire.firestore.collection('services')
+
   services = [
-    {
-      id: uuidv4(),
-      title: 'Gél lakk',
-      description: 'Nem tudom mit lehetne ide írni'
-    },
-    {
-      id: uuidv4(),
-      title: 'Gombaleszedés',
-      description: 'Ide se'
-    },
   ]
+
+  async fetch() {
+    const doc = await this.dbRef.get()
+    const data = doc.docs.map(doc => doc.data())
+    console.log(data)
+    this.services = [...data]
+  }
 
   addNewService() {
     this.services.push(
       {
-        id: uuidv4(),
         title: this.title,
-        description: this.description
+        description: this.description,
+        id: uuidv4()
       },
     )
     this.title = ''
@@ -120,6 +125,13 @@ export default class Services extends Vue {
   removeService(id:string) {
     const filteredServices = this.services.filter(e => e.id !== id)
     this.services = [...filteredServices]
+  }
+
+  async saveData() {
+    for(const service of this.services) {
+      const res = await this.dbRef.add(service)
+      console.log(service, res.id)
+    }
   }
 }
 </script>
