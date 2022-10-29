@@ -7,7 +7,8 @@ module.exports = {
       cms_2: '#ECCCB2',
       cms_3: '#DEB6AB',
       cms_4: '#AC7088',
-      cms_black: '#1D1D1D'
+      cms_black: '#1D1D1D',
+      cms_white: '#F5F5DC'
     },
     extend: {},
   },

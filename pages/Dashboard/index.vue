@@ -80,6 +80,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 
 
 @Component({
@@ -88,6 +90,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   components: {},
 })
 export default class Dashboard extends Vue {
+
 }
 </script>
 <style scoped>

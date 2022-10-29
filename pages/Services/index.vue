@@ -1,110 +1,89 @@
 <template>
-  <div class="p-6">
-    <div class="content-center">
-      <table class="w-full text-sm text-left text-cms_black">
-        <thead class="text-xs text-cms_black uppercase">
-          <tr>
-            <th></th>
-            <th scope="col" class="py-3 px-6 bg-cms_4">Megnevezés</th>
-            <th scope="col" class="py-3 px-6 bg-cms_4">Leírás</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="service in services" :key="service.id">
-            <td></td>
-            <td class="py-4 px-6 font-medium text-cms_black whitespace-nowrap">
-              <textarea
-                class="w-96 border-2 bg-cms_1"
-                v-model="service.title"
-              />
-            </td>
-            <td class="py-4 px-6">
-              <textarea
-                class="w-96 border-2 bg-cms_1"
-                v-model="service.description"
-              />
-            </td>
-            <td>
-              <button
-                class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
-                @click="modifyData(service)"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                  />
-                </svg>
+  <div>
+    <ServiceModal :isModalOpen="isModalOpen" :serviceProp="serviceProp" @closeModal="closeModal" @deleteService="deleteService(serviceProp)"/>
+    <div class="p-6">
+      <ul>
+        <draggable class="list-group">
+          <li
+            class="list-group-item"
+            v-for="service in services"
+            :key="service.id"
+          >
+            <Service
+              :service="service"
+              @modifyData="modifyData"
+              @openModal="openModal(service)"
+            ></Service>
+          </li>
+        </draggable>
 
-                Módosítás
-              </button>
-            </td>
-            <td>
-              <button
-                class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
-                @click="removeService(service)"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                Törlés
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button
-                class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
-                @click="saveData"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Hozzáadás
-              </button>
-            </td>
-            <td class="py-4 px-6 font-medium text-cms_black whitespace-nowrap">
-              <textarea class="w-52 border-2 bg-cms_1" v-model="title" />
-            </td>
-            <td class="py-4 px-6">
-              <textarea class="w-52 border-2 bg-cms_1" v-model="description" />
-            </td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+        <li
+          v-if="isAddNew"
+          class="p-4 mb-3 flex justify-between items-center bg-white shadow rounded-lg cursor-move"
+        >
+          {{ latestOrder }}
+          <input type="text" v-model="title" />
+          <input type="text" v-model="description" />
+          <button
+            class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
+            @click="saveNewData"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 12.75l6 6 9-13.5"
+              />
+            </svg>
+          </button>
+          <button
+            class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
+            @click="undoNewData"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+              />
+            </svg>
+          </button>
+        </li>
+      </ul>
+      <button
+        class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
+        @click="addNew"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        Új hozzáadása
+      </button>
     </div>
   </div>
 </template>
@@ -114,15 +93,25 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from 'firebase/compat'
 import DocumentData = firebase.firestore.DocumentData
 const { v4: uuidv4 } = require('uuid')
+import draggable from 'vuedraggable'
+import Service from '~/components/Service.vue'
+import ServiceModal from '~/components/ServiceModal.vue'
 
 @Component({
   // middleware: 'authenticated',
   layout: 'admin',
-  components: {},
+  components: {
+    Service,
+    ServiceModal,
+    draggable,
+  },
 })
 export default class Services extends Vue {
   title = ''
   description = ''
+  isAddNew = false
+  isModalOpen = false
+  serviceProp: DocumentData | null = null
 
   dbRef = this.$fire.firestore.collection('services')
 
@@ -133,8 +122,25 @@ export default class Services extends Vue {
     this.services = doc.docs.map((service) => service.data())
   }
 
-  removeService(service: DocumentData) {
-    this.dbRef.doc(`${service.id}`).delete()
+  get latestOrder() {
+    return this.services.length
+  }
+
+  openModal(service: DocumentData) {
+    this.serviceProp = service
+    this.isModalOpen = true
+    this.$store.dispatch('showBackdrop')
+  }
+
+  closeModal() {
+    this.isModalOpen = false
+    this.$store.dispatch('hideBackdrop')
+  }
+
+  deleteService(service: DocumentData) {
+    this.dbRef
+      .doc(`${service.id}`)
+      .delete()
       .then(() => {
         this.services = this.services.filter((e) => e.id !== service.id)
         console.log('Document successfully updated!')
@@ -145,7 +151,9 @@ export default class Services extends Vue {
   }
 
   modifyData(service: DocumentData) {
-    this.dbRef.doc(`${service.id}`).update(service)
+    this.dbRef
+      .doc(`${service.id}`)
+      .update(service)
       .then(() => {
         console.log('Document successfully updated!')
       })
@@ -154,10 +162,15 @@ export default class Services extends Vue {
       })
   }
 
-  saveData() {
+  addNew() {
+    this.isAddNew = true
+  }
+
+  saveNewData() {
     const service = {
       title: this.title,
       description: this.description,
+      order: this.latestOrder,
       id: uuidv4(),
     }
     this.dbRef
@@ -166,11 +179,19 @@ export default class Services extends Vue {
       .then(() => {
         this.services.push(service)
         console.log('Document successfully written!')
+        this.title = ''
+        this.description = ''
+        this.isAddNew = false
       })
       .catch((error) => {
         console.error('Error writing document: ', error)
       })
   }
+
+  undoNewData() {
+    this.title = ''
+    this.description = ''
+    this.isAddNew = false
+  }
 }
 </script>
-<style scoped></style>
