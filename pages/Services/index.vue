@@ -1,6 +1,11 @@
 <template>
   <div>
-    <ServiceModal :isModalOpen="isModalOpen" :serviceProp="serviceProp" @closeModal="closeModal" @deleteService="deleteService(serviceProp)"/>
+    <ServiceModal
+      :isModalOpen="isModalOpen"
+      :serviceProp="serviceProp"
+      @closeModal="closeModal"
+      @deleteService="deleteService(serviceProp)"
+    />
     <div class="p-6">
       <ul>
         <draggable class="list-group">
@@ -22,8 +27,8 @@
           class="p-4 mb-3 flex justify-between items-center bg-white shadow rounded-lg cursor-move"
         >
           {{ latestOrder }}
-          <input type="text" v-model="title" />
-          <input type="text" v-model="description" />
+          <textarea class="block p-4 w-96 resize-none" v-model="title" required />
+          <textarea class="block p-4 w-96 resize-none" v-model="description" required />
           <button
             class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
             @click="saveNewData"
@@ -113,6 +118,13 @@ export default class Services extends Vue {
   isModalOpen = false
   serviceProp: DocumentData | null = null
 
+  newService = {
+    title: this.title,
+    description: this.description,
+    order: this.latestOrder,
+    id: uuidv4(),
+  }
+
   dbRef = this.$fire.firestore.collection('services')
 
   services: DocumentData[] = []
@@ -123,7 +135,9 @@ export default class Services extends Vue {
   }
 
   get latestOrder() {
-    return this.services.length
+    if (this.services) {
+      return this.services.length
+    }
   }
 
   openModal(service: DocumentData) {

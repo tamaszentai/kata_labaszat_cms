@@ -3,8 +3,16 @@
     class="p-4 mb-3 flex justify-between items-center bg-white shadow rounded-lg cursor-move"
   >
     {{ service.order }}
-    <input type="text" v-model="service.title" :disabled="!isEditing" />
-    <input type="text" v-model="service.description" :disabled="!isEditing" />
+    <textarea
+      class="block p-4 w-96 resize-none"
+      v-model="service.title"
+      :disabled="!isEditing"
+    />
+    <textarea
+      class="block p-4 w-96 resize-none"
+      v-model="service.description"
+      :disabled="!isEditing"
+    />
     <button
       v-if="!isEditing"
       class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50 disabled:cursor-not-allowed disabled:hover:bg-cms_4 disabled:opacity-50"
@@ -45,9 +53,11 @@
         />
       </svg>
     </button>
-    <button v-if="!isEditing"
+    <button
+      v-if="!isEditing"
       class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
-    @click="openModal()">
+      @click="openModal()"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -63,7 +73,8 @@
         />
       </svg>
     </button>
-    <button v-else
+    <button
+      v-else
       class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
       @click="undoModifyData"
     >
