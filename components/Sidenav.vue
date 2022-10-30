@@ -11,7 +11,7 @@
       <nav class="mt-5 flex-1 space-y-1 bg-cms_4 px-2" aria-label="Sidebar">
         <NuxtLink
           to="/dashboard"
-          class="bg-cms_2 hover:bg-cms_3 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+          class="hover:bg-cms_3 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
         >
           <svg
             class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -32,7 +32,7 @@
 
         <NuxtLink
           to="about"
-          class="text-cms_black hover:hover:bg-cms_3 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+          class="text-cms_black hover:hover:bg-cms_3 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md active:linkExactActiveClass"
         >
           <svg
             class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -177,4 +177,8 @@ export default class Sidenav extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.nuxt-link-exact-active {
+  background: #ECCCB2;
+}
+</style>

@@ -33,6 +33,9 @@ export default {
   ],
   router: {
     middleware: ['authenticated'],
+    router: {
+      linkExactActiveClass: 'bg:cms_black' // tailwind class with custom color
+    }
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
