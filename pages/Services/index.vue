@@ -157,6 +157,7 @@ export default class Services extends Vue {
       .delete()
       .then(() => {
         this.services = this.services.filter((e) => e.id !== service.id)
+        this.$toast.show('Szolgáltatás törölve!', {className: ['toasting'], duration: 1500, position: "top-center"})
         console.log('Document successfully updated!')
       })
       .catch((error) => {
@@ -169,6 +170,7 @@ export default class Services extends Vue {
       .doc(`${service.id}`)
       .update(service)
       .then(() => {
+        this.$toast.show('Szolgáltatás módosítva!', {className: ['toasting'], duration: 1500, position: "top-center"})
         console.log('Document successfully updated!')
       })
       .catch((error) => {
@@ -191,6 +193,7 @@ export default class Services extends Vue {
       .doc(`${service.id}`)
       .set(service)
       .then(() => {
+        this.$toast.show('Új szolgáltatás hozzáadva!', {className: ['toasting'], duration: 1500, position: "top-center"})
         this.services.push(service)
         console.log('Document successfully written!')
         this.title = ''
@@ -209,3 +212,11 @@ export default class Services extends Vue {
   }
 }
 </script>
+
+<style>
+.toasting {
+  color: #1d1d1d !important;
+  font-weight: bold !important;
+  background-color: #AC7088 !important;
+}
+</style>

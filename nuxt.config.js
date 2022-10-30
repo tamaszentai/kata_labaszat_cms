@@ -34,13 +34,32 @@ export default {
   router: {
     middleware: ['authenticated'],
     router: {
-      linkExactActiveClass: 'bg:cms_black' // tailwind class with custom color
-    }
+      linkExactActiveClass: 'bg:cms_black', // tailwind class with custom color
+    },
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     ['@nuxtjs/tailwindcss'],
+    [
+      '@nuxtjs/toast',
+      {
+        toast: {
+          position: 'top-center',
+          register: [
+            // Register custom toasts
+            {
+              name: 'my-error',
+              message: 'Oops...Something went wrong',
+              options: {
+                type: 'error',
+              },
+            },
+          ],
+        },
+      },
+    ],
+
     [
       '@nuxtjs/firebase',
       {

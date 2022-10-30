@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-0 w-52 h-screen flex-col bg-cms_4">
+  <div class="flex h-screen w-52 flex-col bg-cms_4">
     <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
       <div class="flex flex-shrink-0 ml-6 items-center px-4">
         <img
