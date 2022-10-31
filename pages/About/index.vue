@@ -96,15 +96,19 @@ export default class About extends Vue {
       const snapshot = await this.storageRef.put(this.file)
       const downloadUrl = await snapshot.ref.getDownloadURL()
       console.log(downloadUrl)
-      await this.dbRef.update({
+      this.dbRef.update({
         about: this.about,
         imageUrl: downloadUrl,
         lastModified: new Date()
+      }).then(() => {
+        this.$toast.show('Mentve', {className: ['toasting'], duration: 1500, position: "top-center"})
       })
     } else {
-      await this.dbRef.update({
+      this.dbRef.update({
         about: this.about,
         lastModified: new Date()
+      }).then(() => {
+        this.$toast.show('Mentve!', {className: ['toasting'], duration: 1500, position: "top-center"})
       })
     }
   }
