@@ -8,7 +8,7 @@
     />
     <div class="p-6">
       <ul>
-        <draggable class="list-group">
+        <draggable class="list-group" :list="services" :move="checkMove">
           <li
             class="list-group-item"
             v-for="service in services"
@@ -209,6 +209,14 @@ export default class Services extends Vue {
     this.title = ''
     this.description = ''
     this.isAddNew = false
+  }
+
+  checkMove(event: any){
+    // event.draggedContext.element.order = this.services.indexOf(event.draggedContext.element)
+    event.draggedContext.element.order = event.draggedContext.futureIndex
+    for(let service of this.services) {
+      console.log(service.title, service.order)
+    }
   }
 }
 </script>
