@@ -3,7 +3,8 @@ import { GetterTree, ActionTree, MutationTree } from 'vuex'
 export const state = () => ({
   user: null,
   authenticated: false,
-  isShowBackdrop: false
+  isShowBackdrop: false,
+  isServicesOrderChanged: false
 })
 
 export type RootState = ReturnType<typeof state>
@@ -15,6 +16,10 @@ export const getters:  GetterTree<RootState, RootState> = {
 
   getBackDrop(state) {
     return state.isShowBackdrop
+  },
+
+  getServicesOrderChange(state) {
+    return state.isServicesOrderChanged
   }
 }
 
@@ -27,6 +32,10 @@ export const mutations: MutationTree<RootState> = {
   },
   HIDE_BACKDROP(state) {
     state.isShowBackdrop = false
+  },
+
+  SET_SERVICESORDER(state) {
+    state.isServicesOrderChanged = true
   }
 }
 
@@ -56,6 +65,10 @@ export const actions: ActionTree<RootState, RootState> = {
 
   hideBackdrop(state) {
     state.commit('HIDE_BACKDROP')
+  },
+
+  servicesOrderChange(state) {
+    state.commit('SET_SERVICESORDER')
   }
 }
 
