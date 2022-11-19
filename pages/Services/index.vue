@@ -8,7 +8,7 @@
     />
     <div class="p-6">
       <ul>
-        <draggable class="list-group" :list="services" @end="adjustIndices">
+        <draggable class="list-group" :list="services" @end="adjustIndices" :move="checkMove">
           <li
             class="list-group-item"
             v-for="service in services"
@@ -97,9 +97,9 @@
         </svg>
         Új hozzáadása
       </button>
-      <button
-        class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50"
-        @click="saveOrder"
+      <button v-if="$store.getters.getServicesOrderChange"
+        class="bg-cms_4 text-cms_black hover:hover:bg-cms_1 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-50 animate-bounce"
+        @click="saveOrder" :disabled="!isMovedOnce"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import firebase from 'firebase/compat'
 import DocumentData = firebase.firestore.DocumentData
 const { v4: uuidv4 } = require('uuid')
@@ -146,7 +146,15 @@ export default class Services extends Vue {
   isAddNew = false
   isModalOpen = false
   serviceProp: DocumentData | null = null
-  drag = false
+  isMovedOnce = false
+
+  @Watch('services')
+  onServicesChange() {
+    if (this.isMovedOnce) {
+      console.log('hello')
+      this.$store.dispatch('servicesOrderChange')
+    }
+  }
 
   newService = {
     title: this.title,
@@ -164,6 +172,7 @@ export default class Services extends Vue {
     this.services = doc.docs
       .map((service) => service.data())
       .sort((a: DocumentData, b: DocumentData) => a.order - b.order)
+
   }
 
   get latestOrder() {
@@ -259,6 +268,10 @@ export default class Services extends Vue {
     for (let service of this.services) {
       service.order = this.services.indexOf(service)
     }
+  }
+
+  checkMove() {
+    this.isMovedOnce = true
   }
 
   saveOrder() {
