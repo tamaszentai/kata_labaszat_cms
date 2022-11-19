@@ -4,7 +4,7 @@ export const state = () => ({
   user: null,
   authenticated: false,
   isShowBackdrop: false,
-  isServicesOrderChanged: false
+  isServicesOrderChanged: false,
 })
 
 export type RootState = ReturnType<typeof state>

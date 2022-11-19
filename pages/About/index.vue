@@ -99,14 +99,14 @@ export default class About extends Vue {
       this.dbRef.update({
         about: this.about,
         imageUrl: downloadUrl,
-        lastModified: new Date()
+        lastModified: Date.now()
       }).then(() => {
         this.$toast.show('Mentve', {className: ['toasting'], duration: 1500, position: "top-center"})
       })
     } else {
       this.dbRef.update({
         about: this.about,
-        lastModified: new Date()
+        lastModified: Date.now()
       }).then(() => {
         this.$toast.show('Mentve!', {className: ['toasting'], duration: 1500, position: "top-center"})
       })
